@@ -1,6 +1,8 @@
 package com.sergames;
 
-public class UITexts {
+import java.util.Scanner;
+
+public class UserInteraction {
     public static final String airTrafficControllerMenu =
         "1- Afegir un avió a l’espai aeri\n" +
         "2- Gestionar un avió de l’espai Aeri\n" +
@@ -14,4 +16,15 @@ public class UITexts {
         "4- Modificar alçada\n" +
         "5- Establir rumb\n" +
         "6- Retornar Estat de l’Avió (Llegir estat Avió)\n";
+
+    private String askOptionToUser(String pattern, String textToDisplay, String invalidInput) {
+        System.out.println(textToDisplay);
+        Scanner sc = new Scanner(System.in);
+        String answer = sc.next();
+        if (!answer.matches(pattern)){
+            System.out.println(invalidInput);
+            answer = askOptionToUser(pattern,textToDisplay,invalidInput);
+        }
+        return answer;
+    }
 }
