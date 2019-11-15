@@ -47,7 +47,7 @@ public abstract class Airplane {
 
     public Airplane(String licensePlate, Coordinates coordinate) {
         this.licensePlate = licensePlate;
-        this.coordinate = coordinate;
+        this.coordinate = new Coordinates();
         this.engine = false;
         this.speed = 0;
         this.undercarriage = true;

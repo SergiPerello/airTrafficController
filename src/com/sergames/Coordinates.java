@@ -41,6 +41,7 @@ public class Coordinates {
         this.height = height;
     }
 
+    /*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,4 +49,5 @@ public class Coordinates {
         Coordinates that = (Coordinates) o;
         return row == that.row && col == that.col;
     }
+    */
 }
