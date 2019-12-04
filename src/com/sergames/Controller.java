@@ -12,7 +12,7 @@ public class Controller{
     private void airTrafficControllerMenuDecider(int option){
         switch (option) {
             case 1:
-                askOptionToUser()
+                //askOptionToUser();
                 break;
             case 2:
                 break;

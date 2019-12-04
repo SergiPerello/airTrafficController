@@ -9,7 +9,13 @@ public abstract class Airplane {
     private int speed;
     private boolean undercarriage;
 
-
+    public Airplane(String licensePlate, Coordinates coordinate) {
+        this.licensePlate = licensePlate;
+        this.coordinate = GameConfiguration.landingTrack;
+        this.engine = false;
+        this.speed = 0;
+        this.undercarriage = true;
+    }
     private void turnOnEngine(){
         engine = true;
     }
@@ -45,13 +51,6 @@ public abstract class Airplane {
         }
     }
 
-    public Airplane(String licensePlate, Coordinates coordinate) {
-        this.licensePlate = licensePlate;
-        this.coordinate = new Coordinates();
-        this.engine = false;
-        this.speed = 0;
-        this.undercarriage = true;
 
-    }
 }
 
