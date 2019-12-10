@@ -1,11 +1,13 @@
 package com.sergames;
 
-import static com.sergames.UserInteraction.*;
+import java.util.Scanner;
+
+import static com.sergames.Consts.*;
 
 public class Controller{
     public Controller() {
-        int airTrafficControllerOption = Integer.parseInt(
-            askOptionToUser(getAirTrafficControllerMenuOptions, airTrafficControllerMenu, notValidOption));
+        airTrafficControllerMenuDecider(Integer.parseInt(
+                askOptionToUser(getAirTrafficControllerMenuOptions, airTrafficControllerMenu, notValidOption)));
 
     }
 
@@ -23,5 +25,16 @@ public class Controller{
             case 5:
                 break;
         }
+    }
+
+    public static String askOptionToUser(String pattern, String textToDisplay, String invalidInput) {
+        System.out.println(textToDisplay);
+        Scanner sc = new Scanner(System.in);
+        String answer = sc.next();
+        if (!answer.matches(pattern)){
+            System.out.println(invalidInput);
+            answer = askOptionToUser(pattern,textToDisplay,invalidInput);
+        }
+        return answer;
     }
 }

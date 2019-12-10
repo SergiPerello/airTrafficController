@@ -11,7 +11,7 @@ public abstract class Airplane {
 
     public Airplane(String licensePlate, Coordinates coordinate) {
         this.licensePlate = licensePlate;
-        this.coordinate = GameConfiguration.landingTrack;
+        this.coordinate = Consts.landingTrack;
         this.engine = false;
         this.speed = 0;
         this.undercarriage = true;

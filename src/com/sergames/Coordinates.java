@@ -1,12 +1,7 @@
 package com.sergames;
 
 public class Coordinates {
-    /*
-    public static Coordinate up = new Coordinate(-1,0,0);
-    public static Coordinate down = new Coordinate(1,0,0);
-    public static Coordinate right = new Coordinate(0,1,0);
-    public static Coordinate left = new Coordinate(0,-1,0);
-    */
+
     private int row;
     private int col;
     private int height;
