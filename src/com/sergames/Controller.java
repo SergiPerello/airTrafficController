@@ -1,20 +1,24 @@
 package com.sergames;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static com.sergames.Consts.*;
 
-public class Controller{
+public class Controller {
+    private ArrayList<Airplane> planes = new ArrayList<Airplane>();
+
     public Controller() {
-        airTrafficControllerMenuDecider(Integer.parseInt(
-                askOptionToUser(getAirTrafficControllerMenuOptions, airTrafficControllerMenu, notValidOption)));
+        towerActions(Integer.parseInt(
+                askOptionToUser(towerMenuOptions, towerMenu, notValidOption)));
 
     }
 
-    private void airTrafficControllerMenuDecider(int option){
+    private void towerActions(int option) {
         switch (option) {
             case 1:
-                //askOptionToUser();
+                createPlane(Integer.parseInt(
+                        askOptionToUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
                 break;
             case 2:
                 break;
@@ -27,13 +31,29 @@ public class Controller{
         }
     }
 
-    public static String askOptionToUser(String pattern, String textToDisplay, String invalidInput) {
+    private void createPlane(int planeType) {
+        String licensePlate = askOptionToUser(planeLicensePlate);
+        if (planeType==1){ //Commercial
+            planes.add(new CommercialAirplane(licensePlate));
+        }
+        else if (planeType==2){ //Military
+            planes.add(new MilitaryAirplane(licensePlate));
+        }
+    }
+
+    private String askOptionToUser(String textToDisplay) {
+        System.out.println(textToDisplay);
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
+    }
+
+    private String askOptionToUser(String pattern, String textToDisplay, String invalidInput) {
         System.out.println(textToDisplay);
         Scanner sc = new Scanner(System.in);
         String answer = sc.next();
-        if (!answer.matches(pattern)){
+        if (!answer.matches(pattern)) {
             System.out.println(invalidInput);
-            answer = askOptionToUser(pattern,textToDisplay,invalidInput);
+            answer = askOptionToUser(pattern, textToDisplay, invalidInput);
         }
         return answer;
     }
