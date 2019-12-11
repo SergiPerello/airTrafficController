@@ -35,9 +35,15 @@ public class Controller {
         String licensePlate = askOptionToUser(planeLicensePlate);
         if (planeType==1){ //Commercial
             planes.add(new CommercialAirplane(licensePlate));
+            System.out.println(commercialPlaneCreated);
+
         }
         else if (planeType==2){ //Military
             planes.add(new MilitaryAirplane(licensePlate));
+            System.out.println(militaryPlaneCreated);
+        }
+        else{
+            System.out.println(Consts.planeNotCreatedError);
         }
     }
 
