@@ -11,22 +11,21 @@ public class Controller {
     public Controller() {
         towerActions(Integer.parseInt(
                 askOptionToUser(towerMenuOptions, towerMenu, notValidOption)));
-
     }
 
     private void towerActions(int option) {
         switch (option) {
-            case 1:
+            case 1: //Add plane
                 createPlane(Integer.parseInt(
                         askOptionToUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
                 break;
-            case 2:
+            case 2: //Manage plane
                 break;
-            case 3:
+            case 3: //Show planes
                 break;
-            case 4:
+            case 4: //encrypt military planes
                 break;
-            case 5:
+            case 5: //decrypt military planes
                 break;
         }
     }
