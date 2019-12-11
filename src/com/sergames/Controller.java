@@ -20,7 +20,10 @@ public class Controller {
                         askOptionToUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
                 break;
             case 2: //Manage plane
+                planes.size() != 0 ? managePlanes() : System.out.println(Consts.noPlanesCreated);
+
                 break;
+
             case 3: //Show planes
                 break;
             case 4: //encrypt military planes
@@ -32,18 +35,17 @@ public class Controller {
 
     private void createPlane(int planeType) {
         String licensePlate = askOptionToUser(planeLicensePlate);
-        if (planeType==1){ //Commercial
+        if (planeType == 1) { //Commercial
             planes.add(new CommercialAirplane(licensePlate));
             System.out.println(commercialPlaneCreated);
-
-        }
-        else if (planeType==2){ //Military
+        } else if (planeType == 2) { //Military
             planes.add(new MilitaryAirplane(licensePlate));
             System.out.println(militaryPlaneCreated);
-        }
-        else{
-            System.out.println(Consts.planeNotCreatedError);
-        }
+        } else System.out.println(Consts.planeNotCreatedError);
+    }
+
+    private void managePlanes() {
+
     }
 
     private String askOptionToUser(String textToDisplay) {
@@ -51,7 +53,6 @@ public class Controller {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
-
     private String askOptionToUser(String pattern, String textToDisplay, String invalidInput) {
         System.out.println(textToDisplay);
         Scanner sc = new Scanner(System.in);
