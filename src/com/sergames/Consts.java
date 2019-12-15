@@ -36,4 +36,6 @@ public class Consts {
     public static final String militaryPlaneCreated = "Military airplane created on the landing track";
     public static final String planeNotCreatedError = "Plane not created due to an error";
     public static final String noPlanesCreated = "You haven't created any airplane yet";
+    public static final String listPlanes = "Listing all available airplanes...";
+    public static final String chosePlane = "Chose an airplane: ";
 }

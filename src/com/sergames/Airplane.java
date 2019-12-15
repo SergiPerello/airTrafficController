@@ -1,8 +1,6 @@
 package com.sergames;
 
 public abstract class Airplane {
-    enum Orientation {up, down, right, left}
-
     private String licensePlate;
     private Coordinates coordinate;
     private Orientation orientation;
@@ -18,30 +16,36 @@ public abstract class Airplane {
         this.undercarriage = true;
     }
 
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
     private void turnOnEngine() {
         engine = true;
     }
-
     private void turnOffEngine() {
         engine = false;
     }
-
     private void accelerate() {
         speed += 1;
     }
-
     private void slowDown() {
         speed -= 1;
     }
-
+    private void goUp() {
+        this.coordinate.setHeight(this.coordinate.getHeight() + 10);
+    }
+    private void goDown() {
+        this.coordinate.setHeight(this.coordinate.getHeight() - 10);
+    }
     private void showUndercarriage() {
         undercarriage = true;
     }
-
     private void hideUndercarriage() {
         undercarriage = false;
     }
-
     private void move(Orientation o) {
         switch (o) {
             case up:
@@ -58,6 +62,7 @@ public abstract class Airplane {
                 break;
         }
     }
+    enum Orientation {up, down, right, left}
 
 
 }
