@@ -19,8 +19,11 @@ public abstract class Airplane {
     public String getLicensePlate() {
         return licensePlate;
     }
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
+    public boolean getEngine() {
+        return engine;
+    }
+    public boolean getUndercarriage() {
+        return undercarriage;
     }
     private void turnOnEngine() {
         engine = true;

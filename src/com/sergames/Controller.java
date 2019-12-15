@@ -15,22 +15,19 @@ public class Controller {
 
     private void start() {
         while (end == false) {
-            towerActions(Integer.parseInt(
-                    askOptionToUser(towerMenuOptions, towerMenu, notValidOption)));
+            towerActions(Integer.parseInt(askOptionToUser(towerMenuOptions, towerMenu, notValidOption)));
         }
-
     }
 
     private void towerActions(int option) {
         switch (option) {
             case 1: //Add plane
-                createPlane(Integer.parseInt(
-                        askOptionToUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
+                createPlane(Integer.parseInt(askOptionToUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
                 //TODO: check if landing track is occupied
                 break;
             case 2: //Manage plane
                 if (planes.size() != 0) managePlanes();
-                else System.out.println(Consts.noPlanesCreated);
+                else System.out.println(noPlanesCreated);
                 break;
             case 3: //Show planes
                 break;
@@ -49,23 +46,24 @@ public class Controller {
         } else if (planeType == 2) { //Military
             planes.add(new MilitaryAirplane(licensePlate));
             System.out.println(militaryPlaneCreated);
-        } else System.out.println(Consts.planeNotCreatedError);
+        } else System.out.println(planeNotCreatedError);
     }
-
 
     private void managePlanes() {
-        selectPlane();
+        int i = selectPlane();
+        Airplane a = planes.get(i);
+        askOptionToUser(planeMenuOptions, planeMenu(a.getEngine(), a.getUndercarriage()), notValidOption);
     }
 
-    private void selectPlane() {
-        System.out.println(listPlanes);
+    private int selectPlane() {
         int i = 1;
-        String chosePlaneMenuOptions = "[1-"+planes.size()+"]";
+        System.out.println(listPlanes);
+        String chosePlaneMenuOptions = "[1-" + planes.size() + "]";
         for (Airplane a : this.planes) {
-            System.out.println(i+"- " + a.getLicensePlate());
+            System.out.println(i + "- " + a.getLicensePlate());
             i++;
-            askOptionToUser(chosePlane);
         }
+        return Integer.parseInt(askOptionToUser(chosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
     }
 
     private String askOptionToUser(String textToDisplay) {

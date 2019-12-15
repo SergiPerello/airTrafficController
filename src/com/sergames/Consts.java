@@ -7,27 +7,32 @@ public class Consts {
 
     //Regular Expressions
     public static final String towerMenuOptions = "[1-5]";
-    public static final String planeMenuOptions = "[1-6]";
+    public static final String planeMenuOptions = "[1-8]";
     public static final String planeTypeMenuOptions = "[1-2]";
 
     //Menus
     public static final String towerMenu =
             "1- Afegir un avió a l’espai aeri\n" +
-            "2- Gestionar un avió de l’espai Aeri\n" +
-            "3- Mostrar L’espai Aeri actual\n" +
-            "4- Xifrar els avions de combat\n" +
-            "5- Desxifrar els avions de combat";
+                    "2- Gestionar un avió de l’espai Aeri\n" +
+                    "3- Mostrar L’espai Aeri actual\n" +
+                    "4- Xifrar els avions de combat\n" +
+                    "5- Desxifrar els avions de combat";
 
-    public static final String planeMenu =
-            "1- Encendre i apagar motors\n" +
-            "2- Accelerar i Frenar\n" +
-            "3- Pujar Tren d’aterratge i Baixar tren d’aterratge\n" +
-            "4- Modificar alçada\n" +
-            "5- Establir rumb\n" +
-            "6- Retornar Estat de l’Avió (Llegir estat Avió)";
+    public static String planeMenu(boolean engine, boolean undercarriage) {
+        String msg = "";
+        msg += !engine ? "1- Encendre motors\n" : "1- Apagar motors\n";
+        msg += "2- Accelerar\n" +
+                "3- Frenar\n";
+        msg += !undercarriage ? "4- Baixar tren d’aterratge\n" : "4- Pujar tren d’aterratge\n";
+        msg += "5- Modificar alçada\n" +
+                "6- Establir rumb\n" +
+                "7- Retornar Estat de l’Avió (Llegir estat Avió)\n" +
+                "8- Sortir";
+        return msg;
+    }
 
     public static final String planeTypeMenu =
-            "Chose between two plane types:\n" + "1-Commercial\n" + "2-Military";
+            "Chose between two airplane types:\n" + "1-Commercial\n" + "2-Military";
 
     //Verbose
     public static final String notValidOption = "Not valid option!";
