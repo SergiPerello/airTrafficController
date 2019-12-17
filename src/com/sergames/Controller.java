@@ -26,7 +26,7 @@ public class Controller {
                 //TODO: check if landing track is occupied
                 break;
             case 2: //Manage plane
-                if (planes.size() != 0) managePlanes();
+                if (planes.size() != 0) planeActions();
                 else System.out.println(noPlanesCreated);
                 break;
             case 3: //Show planes
@@ -36,6 +36,47 @@ public class Controller {
             case 5: //decrypt military planes
                 break;
         }
+    }
+
+    private void planeActions() {
+        boolean exit = false;
+        int i = selectPlane();
+        Airplane a = planes.get(i);
+        while (!exit) {
+            int option = Integer.parseInt(askOptionToUser(planeMenuOptions, planeMenu(a.getEngine(), a.getUndercarriage(), a.getCoordinate().getHeight()), notValidOption));
+            switch (option) {
+                case 1:
+                    if (!planes.get(i).getEngine()) planes.get(i).turnOnEngine();
+                    else planes.get(i).turnOffEngine();
+                    break;
+                case 2:
+                    int speed = Integer.parseInt(askOptionToUser(setPlaneSpeed));
+                    planes.get(i).setSpeed(speed);
+                    break;
+                case 3:
+                    int height = Integer.parseInt(askOptionToUser(setPlaneHeight));
+                    planes.get(i).getCoordinate().setHeight(height);
+                    break;
+                case 4:
+                    if (a.getCoordinate().getHeight() != 0){
+
+                    }
+
+                    if (!planes.get(i).getUndercarriage()) planes.get(i).showUndercarriage();
+                    else planes.get(i).hideUndercarriage();
+                    System.out.println(planes.get(i).getUndercarriage());
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    exit = true;
+                    break;
+            }
+        }
+
+
     }
 
     private void createPlane(int planeType) {
@@ -49,21 +90,15 @@ public class Controller {
         } else System.out.println(planeNotCreatedError);
     }
 
-    private void managePlanes() {
-        int i = selectPlane();
-        Airplane a = planes.get(i);
-        askOptionToUser(planeMenuOptions, planeMenu(a.getEngine(), a.getUndercarriage()), notValidOption);
-    }
-
     private int selectPlane() {
         int i = 1;
         System.out.println(listPlanes);
-        String chosePlaneMenuOptions = "[1-" + planes.size() + "]";
+        String choosePlaneMenuOptions = "[1-" + planes.size() + "]";
         for (Airplane a : this.planes) {
             System.out.println(i + "- " + a.getLicensePlate());
             i++;
         }
-        return Integer.parseInt(askOptionToUser(chosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
+        return Integer.parseInt(askOptionToUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
     }
 
     private String askOptionToUser(String textToDisplay) {

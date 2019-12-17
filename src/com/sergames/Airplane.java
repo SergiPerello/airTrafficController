@@ -7,6 +7,7 @@ public abstract class Airplane {
     private boolean engine;
     private int speed;
     private boolean undercarriage;
+    private enum Orientation {up, down, right, left}
 
     public Airplane(String licensePlate) {
         this.licensePlate = licensePlate;
@@ -15,7 +16,6 @@ public abstract class Airplane {
         this.speed = 0;
         this.undercarriage = true;
     }
-
     public String getLicensePlate() {
         return licensePlate;
     }
@@ -25,48 +25,33 @@ public abstract class Airplane {
     public boolean getUndercarriage() {
         return undercarriage;
     }
-    private void turnOnEngine() {
+    public Coordinates getCoordinate() {
+        return coordinate;
+    }
+    public void turnOnEngine() {
         engine = true;
     }
-    private void turnOffEngine() {
+    public void turnOffEngine() {
         engine = false;
     }
-    private void accelerate() {
-        speed += 1;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
-    private void slowDown() {
-        speed -= 1;
-    }
-    private void goUp() {
+    public void goUp() {
         this.coordinate.setHeight(this.coordinate.getHeight() + 10);
     }
-    private void goDown() {
+    public void goDown() {
         this.coordinate.setHeight(this.coordinate.getHeight() - 10);
     }
-    private void showUndercarriage() {
+    public void showUndercarriage() {
         undercarriage = true;
     }
-    private void hideUndercarriage() {
+    public void hideUndercarriage() {
         undercarriage = false;
     }
-    private void move(Orientation o) {
-        switch (o) {
-            case up:
-                coordinate.setRow(coordinate.getRow() - 1);
-                break;
-            case down:
-                coordinate.setRow(coordinate.getRow() + 1);
-                break;
-            case right:
-                coordinate.setCol(coordinate.getCol() + 1);
-                break;
-            case left:
-                coordinate.setCol(coordinate.getCol() - 1);
-                break;
-        }
-    }
-    enum Orientation {up, down, right, left}
 
+    //TODO: limitar velocitat segons tipus de avió
+    //TODO: modul de 360 a setRumb()
 
 }
 

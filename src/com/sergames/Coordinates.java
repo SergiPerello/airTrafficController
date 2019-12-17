@@ -24,11 +24,8 @@ public class Coordinates {
         return height;
     }
 
-    public void setRow(int row) {
+    public void setPosition(int row,int col) {
         this.row = row;
-    }
-
-    public void setCol(int col) {
         this.col = col;
     }
 
