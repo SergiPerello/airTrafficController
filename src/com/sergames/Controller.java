@@ -58,13 +58,15 @@ public class Controller {
                     planes.get(i).getCoordinate().setHeight(height);
                     break;
                 case 4:
+                    PlaneMenu b = new PlaneMenu();
+                    b.shit();
+                    /*
                     if (a.getCoordinate().getHeight() != 0){
-
                     }
-
                     if (!planes.get(i).getUndercarriage()) planes.get(i).showUndercarriage();
                     else planes.get(i).hideUndercarriage();
                     System.out.println(planes.get(i).getUndercarriage());
+                    */
                     break;
                 case 5:
                     break;
