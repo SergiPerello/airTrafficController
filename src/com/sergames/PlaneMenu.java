@@ -1,10 +1,16 @@
 package com.sergames;
 
 enum PlaneMenuOptions {
-    ENGINE {
+    ENGINE_ON {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Turn on engine";
+        }
+    },
+    ENGINE_OFF {
+        @Override
+        String print(final int i) {
+            return i + "- Turn off engine";
         }
     },
     SPEED {
@@ -56,7 +62,8 @@ enum PlaneMenuOptions {
 
 class PlaneMenu {
     public static void shit (){
-        PlaneMenuOptions operator = PlaneMenuOptions.ENGINE;
-        System.out.println(operator.print(1));
+
+        System.out.println(PlaneMenuOptions.ENGINE_ON.print(1));
+        System.out.println(PlaneMenuOptions.ENGINE_OFF.print(2));
     }
 }
