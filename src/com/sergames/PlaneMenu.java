@@ -16,54 +16,58 @@ enum PlaneMenuOptions {
     SPEED {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Change speed";
         }
     },
     HEIGHT {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Change height";
         }
     },
-    UNDERCARRIAGE {
+    UNDERCARRIAGE_SHOW {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Show undercarriage";
         }
     },
-    DESTINATION{
+    UNDERCARRIAGE_HIDE {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Hide undercarriage";
         }
     },
-    POSITION{
+    DESTINATION {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Change destination";
         }
     },
-    SHOOT{//just military
+    POSITION {
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Change position";
         }
     },
-    OUT{
+    SHOOT {//just military
         @Override
         String print(final int i) {
-            return "";
+            return i + "- Shoot";
+        }
+    },
+    OUT {
+        @Override
+        String print(final int i) {
+            return i + "- Exit";
         }
     };
 
     abstract String print(int num);
 };
 
-
 class PlaneMenu {
-    public static void shit (){
-
+    public static void showMenu() {
         System.out.println(PlaneMenuOptions.ENGINE_ON.print(1));
-        System.out.println(PlaneMenuOptions.ENGINE_OFF.print(2));
+        System.out.println(PlaneMenuOptions.POSITION.print(2));
     }
 }

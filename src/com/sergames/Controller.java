@@ -59,7 +59,7 @@ public class Controller {
                     break;
                 case 4:
                     PlaneMenu b = new PlaneMenu();
-                    b.shit();
+                    b.showMenu();
                     /*
                     if (a.getCoordinate().getHeight() != 0){
                     }
@@ -77,8 +77,6 @@ public class Controller {
                     break;
             }
         }
-
-
     }
 
     private void createPlane(int planeType) {
