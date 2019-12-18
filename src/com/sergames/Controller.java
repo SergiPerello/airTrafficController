@@ -58,8 +58,7 @@ public class Controller {
                     planes.get(i).getCoordinate().setHeight(height);
                     break;
                 case 4:
-                    PlaneMenu b = new PlaneMenu();
-                    b.showMenu();
+                    PlaneMenu.showPlaneMenu();
                     /*
                     if (a.getCoordinate().getHeight() != 0){
                     }

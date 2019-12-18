@@ -63,11 +63,22 @@ enum PlaneMenuOptions {
     };
 
     abstract String print(int num);
-};
+}
 
 class PlaneMenu {
-    public static void showMenu() {
-        System.out.println(PlaneMenuOptions.ENGINE_ON.print(1));
-        System.out.println(PlaneMenuOptions.POSITION.print(2));
+    static void showPlaneMenu(boolean engine, boolean undercarriage, int height) {
+        int i = 1;
+        if (engine) System.out.println(PlaneMenuOptions.ENGINE_OFF.print(i++));
+        else System.out.println(PlaneMenuOptions.ENGINE_ON.print(i++));
+        System.out.println(PlaneMenuOptions.SPEED.print(i++));
+        System.out.println(PlaneMenuOptions.HEIGHT.print(i++));
+        if (height != 0) {
+            if (undercarriage) System.out.println(PlaneMenuOptions.UNDERCARRIAGE_HIDE.print(i++));
+            else System.out.println(PlaneMenuOptions.UNDERCARRIAGE_SHOW.print(i++));
+        }
+        System.out.println(PlaneMenuOptions.DESTINATION.print(i++));
+        System.out.println(PlaneMenuOptions.POSITION.print(i++));
+        System.out.println(PlaneMenuOptions.OUT.print(i));
+
     }
 }
