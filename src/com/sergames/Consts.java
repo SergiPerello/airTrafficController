@@ -3,12 +3,12 @@ package com.sergames;
 public class Consts {
     //GameConfigurations
     public static final Coordinates landingTrack = new Coordinates(100, 100, 0);
-    public static final int gridSize = 1000;
 
     //Regular Expressions
     public static final String towerMenuOptions = "[1-5]";
     public static final String planeMenuOptions = "[1-7]";
     public static final String planeTypeMenuOptions = "[1-2]";
+    public static final String maxGridPosition = "([0-9][0-9]{0,2}|1000)"; //[0-1000]
 
     //Menus
     public static final String towerMenu =
@@ -30,15 +30,20 @@ public class Consts {
     public static final String chosePlane = "Choose an airplane: ";
     public static final String setPlaneSpeed = "Set new speed: ";
     public static final String setPlaneHeight = "Set new height: ";
+    public static final String planeIsOnTheFloor = "Invalid action, plane is on the floor";
+    public static final String setPlaneOrientation = "Set new orientation: ";
+    public static final String setPlaneRow = "Set new position, row: ";
+    public static final String setPlaneCol = "Set new position, col: ";
+    public static final String turnOnEngine = "Turn the engine on before doing something else";
 
-    public static String planeMenu(boolean engine, boolean undercarriage, int height) {
+    public static String planeMenu(boolean engine, boolean undercarriage) {
         String msg = "";
         int i = 1;
         msg += !engine ? i++ + "- Encendre motors\n" : i++ + "- Apagar motors\n";
         msg += i++ + "- Modificar velocitat\n" +
                 i++ + "- Modificar alçada\n";
         msg += !undercarriage ? i++ + "- Baixar tren d’aterratge\n" : i++ + "- Pujar tren d’aterratge\n";
-        msg += i++ + "- Modificar rumb\n" +
+        msg += i++ + "- Modificar orientació\n" +
                 i++ + "- Modificar posició\n" +
                 i++ + "- Sortir";
         return msg;
