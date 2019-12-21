@@ -37,8 +37,7 @@ public class Consts {
         msg += !engine ? i++ + "- Encendre motors\n" : i++ + "- Apagar motors\n";
         msg += i++ + "- Modificar velocitat\n" +
                 i++ + "- Modificar alçada\n";
-        if (height != 0)
-            msg += !undercarriage ? i++ + "- Baixar tren d’aterratge\n" : i++ + "- Pujar tren d’aterratge\n";
+        msg += !undercarriage ? i++ + "- Baixar tren d’aterratge\n" : i++ + "- Pujar tren d’aterratge\n";
         msg += i++ + "- Modificar rumb\n" +
                 i++ + "- Modificar posició\n" +
                 i++ + "- Sortir";

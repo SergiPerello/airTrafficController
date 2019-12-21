@@ -50,6 +50,7 @@ enum PlaneMenuOptions {
         }
     },
     SHOOT {//just military
+
         @Override
         String print(final int i) {
             return i + "- Shoot";
@@ -72,10 +73,8 @@ class PlaneMenu {
         else System.out.println(PlaneMenuOptions.ENGINE_ON.print(i++));
         System.out.println(PlaneMenuOptions.SPEED.print(i++));
         System.out.println(PlaneMenuOptions.HEIGHT.print(i++));
-        if (height != 0) {
-            if (undercarriage) System.out.println(PlaneMenuOptions.UNDERCARRIAGE_HIDE.print(i++));
-            else System.out.println(PlaneMenuOptions.UNDERCARRIAGE_SHOW.print(i++));
-        }
+        if (undercarriage) System.out.println(PlaneMenuOptions.UNDERCARRIAGE_HIDE.print(i++));
+        else System.out.println(PlaneMenuOptions.UNDERCARRIAGE_SHOW.print(i++));
         System.out.println(PlaneMenuOptions.DESTINATION.print(i++));
         System.out.println(PlaneMenuOptions.POSITION.print(i++));
         System.out.println(PlaneMenuOptions.OUT.print(i));
