@@ -58,6 +58,7 @@ public class Controller {
                             planes.get(i).turnOffEngine();
                             System.out.println(engineOff);
                         }
+
                         break;
                     case 2:
                         int speedValue = Integer.parseInt(askOptionToUser(setPlaneSpeed));
