@@ -56,6 +56,7 @@ public class Consts {
         msg += !undercarriage ? i++ + "- Baixar tren d’aterratge\n" : i++ + "- Pujar tren d’aterratge\n";
         msg += i++ + "- Modificar orientació\n" +
                 i++ + "- Modificar posició\n" +
+                i++ + "- Disparar avió enemic\n" +
                 i++ + "- Sortir";
         return msg;
     }

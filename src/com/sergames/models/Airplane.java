@@ -1,4 +1,7 @@
-package com.sergames;
+package com.sergames.models;
+
+import com.sergames.Consts;
+import com.sergames.Coordinates;
 
 public abstract class Airplane {
     private String licensePlate;

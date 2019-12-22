@@ -1,5 +1,9 @@
 package com.sergames;
 
+import com.sergames.models.Airplane;
+import com.sergames.models.CommercialAirplane;
+import com.sergames.models.MilitaryAirplane;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -88,6 +92,9 @@ public class Controller {
                         System.out.println(planeModification(row, col, rowValue, colValue));
                         break;
                     case 7:
+                        //TODO: Shoot
+                        break;
+                    case 8:
                         exit = true;
                         break;
                 }
@@ -107,7 +114,7 @@ public class Controller {
             planes.add(new CommercialAirplane(licensePlate));
             System.out.println(commercialPlaneCreated);
         } else if (planeType == 2) { //Military
-            planes.add(new MilitaryAirplane(licensePlate));
+            planes.add(new MilitaryAirplane(licensePlate,false));
             System.out.println(militaryPlaneCreated);
         } else System.out.println(planeNotCreatedError);
     }
