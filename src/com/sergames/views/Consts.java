@@ -1,4 +1,6 @@
-package com.sergames;
+package com.sergames.views;
+
+import com.sergames.models.Coordinates;
 
 public class Consts {
     //GameConfigurations

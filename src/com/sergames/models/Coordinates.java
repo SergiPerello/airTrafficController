@@ -1,4 +1,4 @@
-package com.sergames;
+package com.sergames.models;
 
 public class Coordinates {
 

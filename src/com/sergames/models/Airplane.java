@@ -1,7 +1,7 @@
 package com.sergames.models;
 
-import com.sergames.Consts;
-import com.sergames.Coordinates;
+import com.sergames.views.Consts;
+
 
 public abstract class Airplane {
     private String licensePlate;
@@ -69,10 +69,7 @@ public abstract class Airplane {
         this.speed = speed;
     }
 
-    enum Type {COMMERCIAL, MILITARY}
-
     //TODO: limitar velocitat segons tipus de avió
-    //TODO: modul de 360 a setRumb()
 
 }
 
