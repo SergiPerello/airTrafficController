@@ -1,9 +1,70 @@
 package com.sergames;
 
-import static com.sergames.views.Consts.*;
+import com.sergames.models.CommercialAirplane;
+import com.sergames.models.MilitaryAirplane;
+import com.sergames.models.Plane;
+
+import java.util.ArrayList;
+
+import static com.sergames.Consts.*;
 import static com.sergames.askUser.askUser;
 
 public class Controller {
+    ArrayList<Plane> planes = new ArrayList<>();
+
+    public void start() {
+        while (true) towerActions(Integer.parseInt(askUser(towerMenuOptions, towerMenu, notValidOption)));
+    }
+
+    public void towerActions(int o) {
+        switch (o) {
+            case 1: //Add plane
+                createPlane(Integer.parseInt(askUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
+                //TODO: check if landing track is occupied
+                break;
+            case 2: //Manage plane
+                if (planes.size() != 0) planeActions();
+                else System.out.println(noPlanesCreated);
+                break;
+            case 3: //Show planes
+                if (planes.size() != 0) showPlanes();
+                else System.out.println(noPlanesCreated);
+                break;
+            case 4: //encrypt military planes
+                break;
+            case 5: //decrypt military planes
+                break;
+        }
+    }
+
+    private void createPlane(int planeType) {
+        String licensePlate = askUser(planeLicensePlate);
+        if (planeType == 1) { //Commercial
+            planes.add(new CommercialAirplane(licensePlate));
+            System.out.println(commercialPlaneCreated);
+        } else if (planeType == 2) { //Military
+            planes.add(new MilitaryAirplane(licensePlate, false));
+            System.out.println(militaryPlaneCreated);
+        } else System.out.println(planeNotCreatedError);
+    }
+
+    private void showPlanes() {
+        int i = 1;
+        TableList tl = new TableList(5, "ID", "Matrícula", "X", "Y", "Alçada").sortBy(0).withUnicode(true);
+        for (Plane p : planes) {
+            tl.addRow(String.valueOf(i), p.getLicensePlate(), String.valueOf(p.getCoordinate().getRow()), String.valueOf(p.getCoordinate().getCol()), String.valueOf(p.getCoordinate().getHeight()));
+            i++;
+        }
+        tl.print();
+    }
+
+    private int selectPlane() {
+        System.out.println(listPlanes);
+        String choosePlaneMenuOptions = "[1-" + planes.size() + "]";
+        showPlanes();
+        return Integer.parseInt(askUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
+    }
+
     private void planeActions() {
         boolean exit = false;
         int i = selectPlane();
@@ -70,6 +131,4 @@ public class Controller {
         //TODO: check when a plane has to crash
         //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
     }
-
-
 }

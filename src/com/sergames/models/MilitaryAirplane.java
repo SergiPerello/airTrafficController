@@ -1,6 +1,6 @@
 package com.sergames.models;
 
-public class MilitaryAirplane extends Airplane {
+public class MilitaryAirplane extends Plane {
     private Missile[] missiles;
     private boolean enemy;
 

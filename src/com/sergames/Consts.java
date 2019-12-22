@@ -1,4 +1,4 @@
-package com.sergames.views;
+package com.sergames;
 
 import com.sergames.models.Coordinates;
 
@@ -59,7 +59,7 @@ public class Consts {
         msg += i++ + "- Modificar orientació\n" +
                 i++ + "- Modificar posició\n" +
                 i++ + "- Disparar avió enemic\n" +
-                i++ + "- Sortir";
+                i + "- Sortir";
         return msg;
     }
 

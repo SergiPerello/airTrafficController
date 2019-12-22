@@ -1,9 +1,8 @@
 package com.sergames.models;
 
-import com.sergames.views.Consts;
+import com.sergames.Consts;
 
-
-public abstract class Airplane {
+public abstract class Plane {
     private String licensePlate;
     private Coordinates coordinate;
     private int orientation;
@@ -12,7 +11,7 @@ public abstract class Airplane {
     private boolean undercarriage;
     private Type type;
 
-    public Airplane(String licensePlate, Type type) {
+    public Plane(String licensePlate, Type type) {
         this.licensePlate = licensePlate;
         this.coordinate = Consts.landingTrack;
         this.engine = false;
@@ -70,6 +69,4 @@ public abstract class Airplane {
     }
 
     //TODO: limitar velocitat segons tipus de avió
-
 }
-

@@ -1,8 +1,6 @@
 package com.sergames.models;
 
-import com.sergames.models.Airplane;
-
-public class CommercialAirplane extends Airplane {
+public class CommercialAirplane extends Plane {
     public CommercialAirplane(String licensePlate) {
         super(licensePlate, Type.COMMERCIAL);
     }
