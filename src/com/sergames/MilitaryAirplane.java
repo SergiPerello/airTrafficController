@@ -6,6 +6,6 @@ public class MilitaryAirplane extends Airplane {
 
 
     public MilitaryAirplane(String licensePlate) {
-        super(licensePlate);
+        super(licensePlate, Type.MILITARY);
     }
 }

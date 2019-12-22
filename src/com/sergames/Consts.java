@@ -20,6 +20,16 @@ public class Consts {
     public static final String planeTypeMenu =
             "Chose between two airplane types:\n" + "1-Commercial\n" + "2-Military";
     //Verbose
+    public static final String speed = "speed";
+    public static final String height = "height";
+    public static final String orientation = "orientation";
+    public static final String engineOn = "Engine is now on";
+    public static final String engineOff = "Engine is now off";
+    public static final String undercarriageIn = "Undercarriage is now in";
+    public static final String undercarriageOut = "Undercarriage is now out";
+    public static final String row = "row";
+    public static final String col = "col";
+
     public static final String notValidOption = "Not valid option!";
     public static final String planeLicensePlate = "Write the license plate: ";
     public static final String commercialPlaneCreated = "Commercial airplane created on the landing track";
@@ -36,6 +46,7 @@ public class Consts {
     public static final String setPlaneCol = "Set new position, col: ";
     public static final String turnOnEngine = "Turn the engine on before doing something else";
 
+
     public static String planeMenu(boolean engine, boolean undercarriage) {
         String msg = "";
         int i = 1;
@@ -47,5 +58,13 @@ public class Consts {
                 i++ + "- Modificar posició\n" +
                 i++ + "- Sortir";
         return msg;
+    }
+
+    public static String planeModification(String part, int value) {
+        return "New " + part + " is " + value;
+    }
+
+    public static String planeModification(String part, String part2, int value, int value2) {
+        return "New values are " + part + ":" + value + " " + part2 + ":" + value2;
     }
 }

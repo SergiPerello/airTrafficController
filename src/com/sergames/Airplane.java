@@ -7,13 +7,15 @@ public abstract class Airplane {
     private boolean engine;
     private int speed;
     private boolean undercarriage;
+    private Type type;
 
-    public Airplane(String licensePlate) {
+    public Airplane(String licensePlate, Type type) {
         this.licensePlate = licensePlate;
         this.coordinate = Consts.landingTrack;
         this.engine = false;
         this.speed = 0;
         this.undercarriage = true;
+        this.type = type;
     }
 
     public String getLicensePlate() {
@@ -63,6 +65,8 @@ public abstract class Airplane {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    enum Type {COMMERCIAL, MILITARY}
 
     //TODO: limitar velocitat segons tipus de avió
     //TODO: modul de 360 a setRumb()

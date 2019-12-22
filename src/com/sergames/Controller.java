@@ -47,40 +47,58 @@ public class Controller {
             } else {
                 switch (option) {
                     case 1:
-                        if (!planes.get(i).getEngine()) planes.get(i).turnOnEngine();
-                        else planes.get(i).turnOffEngine();
+                        if (!planes.get(i).getEngine()) {
+                            planes.get(i).turnOnEngine();
+                            System.out.println(engineOn);
+                        } else {
+                            planes.get(i).turnOffEngine();
+                            System.out.println(engineOff);
+                        }
                         break;
                     case 2:
-                        int speed = Integer.parseInt(askOptionToUser(setPlaneSpeed));
-                        planes.get(i).setSpeed(speed);
+                        int speedValue = Integer.parseInt(askOptionToUser(setPlaneSpeed));
+                        planes.get(i).setSpeed(speedValue);
+                        System.out.println(planeModification(speed, speedValue));
                         break;
                     case 3:
-                        int height = Integer.parseInt(askOptionToUser(setPlaneHeight));
-                        planes.get(i).getCoordinate().setHeight(height);
+                        int heightValue = Integer.parseInt(askOptionToUser(setPlaneHeight));
+                        planes.get(i).getCoordinate().setHeight(heightValue);
+                        System.out.println(planeModification(height, heightValue));
                         break;
                     case 4:
                         if (planes.get(i).getCoordinate().getHeight() != 0) {
-                            if (!planes.get(i).getUndercarriage()) planes.get(i).showUndercarriage();
-                            else planes.get(i).hideUndercarriage();
+                            if (!planes.get(i).getUndercarriage()) {
+                                planes.get(i).showUndercarriage();
+                                System.out.println(undercarriageOut);
+                            } else {
+                                planes.get(i).hideUndercarriage();
+                                System.out.println(undercarriageIn);
+                            }
                         } else System.out.println(planeIsOnTheFloor);
                         break;
                     case 5:
-                        int orientation = Integer.parseInt(askOptionToUser(setPlaneOrientation));
-                        planes.get(i).setOrientation(orientation);
+                        int orientationValue = Integer.parseInt(askOptionToUser(setPlaneOrientation));
+                        planes.get(i).setOrientation(orientationValue);
+                        System.out.println(planeModification(orientation, planes.get(i).getOrientation()));
                         break;
                     case 6:
-                        int row = Integer.parseInt(askOptionToUser(maxGridPosition, setPlaneRow, notValidOption));
-                        int col = Integer.parseInt(askOptionToUser(maxGridPosition, setPlaneCol, notValidOption));
-                        planes.get(i).getCoordinate().setPosition(row, col);
+                        int rowValue = Integer.parseInt(askOptionToUser(maxGridPosition, setPlaneRow, notValidOption));
+                        int colValue = Integer.parseInt(askOptionToUser(maxGridPosition, setPlaneCol, notValidOption));
+                        planes.get(i).getCoordinate().setPosition(rowValue, colValue);
+                        System.out.println(planeModification(row, col, rowValue, colValue));
                         break;
                     case 7:
                         exit = true;
                         break;
                 }
             }
-            //TODO: Print value after a modification
-            //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
+            updatePlaneState(i);
         }
+    }
+
+    private void updatePlaneState(int plane) {
+        //TODO: check when a plane has to crash
+        //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
     }
 
     private void createPlane(int planeType) {
