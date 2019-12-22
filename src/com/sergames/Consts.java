@@ -8,7 +8,7 @@ public class Consts {
 
     //Regular Expressions
     public static final String towerMenuOptions = "[1-5]";
-    public static final String planeMenuOptions = "[1-7]";
+    public static final String planeMenuOptions = "[1-8]";
     public static final String planeTypeMenuOptions = "[1-2]";
     public static final String maxGridPosition = "([0-9][0-9]{0,2}|1000)"; //[0-1000]
 
@@ -33,7 +33,8 @@ public class Consts {
     public static final String col = "col";
 
     public static final String notValidOption = "Not valid option!";
-    public static final String planeLicensePlate = "Write the license plate: ";
+    public static final String setBrand = "Write the brand: ";
+    public static final String setLicensePlate = "Write the license plate: ";
     public static final String commercialPlaneCreated = "Commercial airplane created on the landing track";
     public static final String militaryPlaneCreated = "Military airplane created on the landing track";
     public static final String planeNotCreatedError = "Plane not created due to an error";
