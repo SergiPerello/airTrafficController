@@ -32,6 +32,7 @@ public class Consts {
     public static final String row = "row";
     public static final String col = "col";
 
+    public static final String empty = "";
     public static final String notValidOption = "Not valid option!";
     public static final String setBrand = "Write the brand: ";
     public static final String setLicensePlate = "Write the license plate: ";
@@ -39,15 +40,21 @@ public class Consts {
     public static final String militaryPlaneCreated = "Military airplane created on the landing track";
     public static final String planeNotCreatedError = "Plane not created due to an error";
     public static final String noPlanesCreated = "You haven't created any airplane yet";
+    public static final String noMilitaryPlanesToEncrypt = "You don't have any military airplane to encrypt";
+    public static final String noMilitaryPlanesToDecrypt = "You don't have any military airplane to decrypt";
     public static final String listPlanes = "Listing all available airplanes...";
+    public static final String listCommercialPlanes = "Listing all available commercial airplanes...";
+    public static final String listMilitaryPlanes = "Listing all available military airplanes...";
     public static final String chosePlane = "Choose an airplane: ";
     public static final String setPlaneSpeed = "Set new speed: ";
     public static final String setPlaneHeight = "Set new height: ";
     public static final String planeIsOnTheFloor = "Invalid action, plane is on the floor";
     public static final String setPlaneOrientation = "Set new orientation: ";
     public static final String setPlaneRow = "Set new position, row: ";
-    public static final String setPlaneCol = "Set new position, col: ";
+    public static final String setPlaneCol = "Set new positionª, col: ";
     public static final String turnOnEngine = "Turn the engine on before doing something else";
+    public static final String somethingWentWrong = "Something went wrong";
+    public static final String fileNotFound = "File not found!";
 
 
     public static String planeMenu(boolean engine, boolean undercarriage) {

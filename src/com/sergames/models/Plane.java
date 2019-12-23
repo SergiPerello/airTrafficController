@@ -26,20 +26,44 @@ public abstract class Plane {
         return brand;
     }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public String getLicensePlate() {
         return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public boolean getEngine() {
         return engine;
     }
 
+    public void setEngine(boolean engine) {
+        this.engine = engine;
+    }
+
     public boolean getUndercarriage() {
         return undercarriage;
     }
 
+    public void setUndercarriage(boolean undercarriage) {
+        this.undercarriage = undercarriage;
+    }
+
     public Coordinates getCoordinate() {
         return coordinate;
+    }
+
+    public void setCoordinate(Coordinates coordinate) {
+        this.coordinate = coordinate;
     }
 
     public int getOrientation() {

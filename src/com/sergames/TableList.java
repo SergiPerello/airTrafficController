@@ -1,6 +1,7 @@
 package com.sergames;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
@@ -29,7 +30,7 @@ public class TableList {
     private boolean ucode;
     private Comparator<String[]> comparator;
     private int spacing;
-    private EnumAlignment aligns[];
+    private EnumAlignment[] aligns;
 
     public TableList(String... descriptions) {
         this(descriptions.length, descriptions);
@@ -49,9 +50,7 @@ public class TableList {
         this.spacing = 1;
         this.aligns = new EnumAlignment[columns];
         this.comparator = null;
-        for (int i = 0; i < aligns.length; i++) {
-            aligns[i] = EnumAlignment.LEFT;
-        }
+        Arrays.fill(aligns, EnumAlignment.LEFT);
     }
 
     private void updateSizes(String[] elements) {
@@ -271,7 +270,7 @@ public class TableList {
         return src[ucode ? 1 : 0];
     }
 
-    public static enum EnumAlignment {
+    public enum EnumAlignment {
         LEFT, CENTER, RIGHT
     }
 
