@@ -11,15 +11,18 @@ public abstract class Plane {
     private int speed;
     private boolean undercarriage;
     private Type type;
+    private boolean encrypt;
 
     public Plane(String brand, String licensePlate, Type type) {
         this.brand = brand;
         this.licensePlate = licensePlate;
         this.coordinate = Consts.landingTrack;
+        this.orientation = 0;
         this.engine = false;
         this.speed = 0;
         this.undercarriage = true;
         this.type = type;
+        this.encrypt = false;
     }
 
     public String getBrand() {
@@ -38,32 +41,8 @@ public abstract class Plane {
         this.licensePlate = licensePlate;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public boolean getEngine() {
-        return engine;
-    }
-
-    public void setEngine(boolean engine) {
-        this.engine = engine;
-    }
-
-    public boolean getUndercarriage() {
-        return undercarriage;
-    }
-
-    public void setUndercarriage(boolean undercarriage) {
-        this.undercarriage = undercarriage;
-    }
-
     public Coordinates getCoordinate() {
         return coordinate;
-    }
-
-    public void setCoordinate(Coordinates coordinate) {
-        this.coordinate = coordinate;
     }
 
     public int getOrientation() {
@@ -74,20 +53,20 @@ public abstract class Plane {
         this.orientation = orientation % 360;
     }
 
+    public boolean getEngine() {
+        return engine;
+    }
+
+    public void setEngine(boolean engine) {
+        this.engine = engine;
+    }
+
     public void turnOnEngine() {
         engine = true;
     }
 
     public void turnOffEngine() {
         engine = false;
-    }
-
-    public void showUndercarriage() {
-        undercarriage = true;
-    }
-
-    public void hideUndercarriage() {
-        undercarriage = false;
     }
 
     public int getSpeed() {
@@ -98,5 +77,36 @@ public abstract class Plane {
         this.speed = speed;
     }
 
+    public boolean getUndercarriage() {
+        return undercarriage;
+    }
+
+    public void setUndercarriage(boolean undercarriage) {
+        this.undercarriage = undercarriage;
+    }
+
+    public void showUndercarriage() {
+        undercarriage = true;
+    }
+
+    public void hideUndercarriage() {
+        undercarriage = false;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public boolean isMilitary() {
+        return this.type == Type.MILITARY;
+    }
+
+    public boolean isEncrypt() {
+        return encrypt;
+    }
+
+    public void setEncrypt(boolean encrypt) {
+        this.encrypt = encrypt;
+    }
     //TODO: limitar velocitat segons tipus de avió
 }

@@ -10,16 +10,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.List;
 
+import static com.sergames.ArrayListFilter.militaryEncrypt;
+import static com.sergames.ArrayListFilter.militaryNotEncrypt;
 import static com.sergames.Consts.*;
 import static com.sergames.askUser.askUser;
 
 public class Controller {
-    //ArrayList<Plane> planes = new ArrayList<>();
-    ArrayList<CommercialAirplane> commercialPlanes = new ArrayList<>();
-    ArrayList<MilitaryAirplane> militaryPlanes = new ArrayList<>();
+    ArrayList<Plane> planes = new ArrayList<>();
+    ArrayList<ArrayList<String>> encryptedPlanes = new ArrayList<>();
 
     //TODO: LicensePlane has to be more than 0 chars
     public void start() {
@@ -27,14 +27,14 @@ public class Controller {
         if (!directory.exists()) directory.mkdir();
         else {
             File[] files = directory.listFiles();
+            assert files != null;
             for (File file : files) file.delete();
         }
         while (true) towerActions(Integer.parseInt(askUser(towerMenuOptions, towerMenu, notValidOption)));
     }
 
     public void towerActions(int o) {
-        ArrayList<String> a = new ArrayList<>();
-        if (o != 1 && commercialPlanes.size() == 0 && militaryPlanes.size() == 0) {
+        if (o != 1 && planes.size() == 0) {
             System.out.println(noPlanesCreated);
         } else {
             switch (o) {
@@ -43,28 +43,26 @@ public class Controller {
                     //TODO: check if landing track is occupied
                     break;
                 case 2: //Manage plane
-                    int i = selectPlane(listPlanes);
+                    //int i = selectPlane(listPlanes);
 
                     break;
                 case 3: //Show planes
-                    showPlanes();
+                    showPlanes(listPlanes, planes);
                     break;
                 case 4: //encrypt military planes
-                    Predicate<MilitaryAirplane> byEncrypt = p -> !p.isEncrypt();
-                    ArrayList<MilitaryAirplane> result = (ArrayList<MilitaryAirplane>) militaryPlanes.stream().filter(byEncrypt).collect(Collectors.toList());
-                    if (result.size() <= 0) System.out.println(noMilitaryPlanesToEncrypt);
+                    ArrayList<Plane> militaryNotEncrypt = militaryNotEncrypt(planes);
+                    if (militaryNotEncrypt.size() <= 0) System.out.println(noMilitaryPlanesToEncrypt);
                     else {
-                        int s = selectMilitaryPlane();
-                        a = encryptPlane(s);
+                        int s = selectPlane(listMilitaryPlanesEncrypt, militaryNotEncrypt);
+                        encryptedPlanes.add(encryptPlane(s, militaryNotEncrypt));
                     }
                     break;
                 case 5: //decrypt military planes
-                    byEncrypt = MilitaryAirplane::isEncrypt;
-                    result = (ArrayList<MilitaryAirplane>) militaryPlanes.stream().filter(byEncrypt).collect(Collectors.toList());
-                    if (result.size() <= 0) System.out.println(noMilitaryPlanesToDecrypt);
+                    ArrayList<Plane> militaryEncrypt = militaryEncrypt(planes);
+                    if (militaryEncrypt.size() <= 0) System.out.println(noMilitaryPlanesToDecrypt);
                     else {
-                        int s = selectMilitaryPlane();
-                        decryptPlane(result, s, a);
+                        int s = selectPlane(listMilitaryPlanesDecrypt, militaryEncrypt);
+                        decryptPlane(militaryEncrypt, s, encryptedPlanes.get(s));
                     }
                     break;
             }
@@ -75,39 +73,25 @@ public class Controller {
         String brand = askUser(setBrand);
         String licensePlate = askUser(setLicensePlate);
         if (planeType == 1) { //Commercial
-            commercialPlanes.add(new CommercialAirplane(brand, licensePlate));
+            planes.add(new CommercialAirplane(brand, licensePlate));
             System.out.println(commercialPlaneCreated);
         } else if (planeType == 2) { //Military
-            militaryPlanes.add(new MilitaryAirplane(brand, licensePlate, false));
+            planes.add(new MilitaryAirplane(brand, licensePlate, false));
             System.out.println(militaryPlaneCreated);
         } else System.out.println(planeNotCreatedError);
     }
 
-    private int selectPlane(String text) {
+    private int selectPlane(String text, ArrayList<Plane> array) {
+        String choosePlaneMenuOptions = "[1-" + array.size() + "]";
+        showPlanes(text, array);
+        return Integer.parseInt(askUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
+    }
+
+    private void showPlanes(String text, List<Plane> arrayList) {
         System.out.println(text);
-        String choosePlaneMenuOptions = "[1-" + (commercialPlanes.size() + militaryPlanes.size()) + "]";
-        showPlanes();
-        return Integer.parseInt(askUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
-    }
-
-    private int selectMilitaryPlane() {
-        System.out.println(listMilitaryPlanes);
-        int i = showMilitaryPlanes();
-        String choosePlaneMenuOptions = "[1-" + i + "]";
-        return Integer.parseInt(askUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
-    }
-
-    private void showPlanes() {
         int i = 1;
         TableList tl = new TableList(6, "ID", "Brand", "Matrícula", "X", "Y", "Z").sortBy(0).withUnicode(true);
-        for (Plane p : commercialPlanes) {
-            tl.addRow(String.valueOf(i), p.getBrand(), p.getLicensePlate(),
-                    String.valueOf(p.getCoordinate().getRow()),
-                    String.valueOf(p.getCoordinate().getCol()),
-                    String.valueOf(p.getCoordinate().getHeight()));
-            i++;
-        }
-        for (MilitaryAirplane p : militaryPlanes) {
+        for (Plane p : arrayList) {
             if (!p.isEncrypt()) {
                 tl.addRow(String.valueOf(i), p.getBrand(), p.getLicensePlate(),
                         String.valueOf(p.getCoordinate().getRow()),
@@ -121,70 +105,61 @@ public class Controller {
         tl.print();
     }
 
-    private int showMilitaryPlanes() {
-        int i = 1;
-        TableList tl = new TableList(6, "ID", "Brand", "Matrícula", "X", "Y", "Z").sortBy(0).withUnicode(true);
-        for (MilitaryAirplane p : militaryPlanes) {
-            if (!p.isEncrypt()) {
-                tl.addRow(String.valueOf(i), p.getBrand(), p.getLicensePlate(),
-                        String.valueOf(p.getCoordinate().getRow()),
-                        String.valueOf(p.getCoordinate().getCol()),
-                        String.valueOf(p.getCoordinate().getHeight()));
-            } else {
-                tl.addRow(String.valueOf(i), empty, "ENCRYPTED", empty, empty, empty);
-            }
-            i++;
-
-        }
-        tl.print();
-        return i;
-    }
-
-    private ArrayList<String> encryptPlane(int i) {
-        String url = "hashes/" + militaryPlanes.get(i).getLicensePlate() + ".hash";
+    private void CreateEncryptFile(String licensePlate) {
+        String url = "hashes/" + licensePlate + ".hash";
         File file = new File(url);
         if (file.exists()) file.delete();
         try (FileWriter fw = new FileWriter(url, true); BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
-            out.println(encrypt(militaryPlanes.get(i).getLicensePlate()));
+            out.println(encrypt(licensePlate));
         } catch (IOException e) {
             System.out.println(somethingWentWrong);
         }
+    }
+
+    private ArrayList<String> encryptPlane(int i, ArrayList<Plane> arrayList) {
+        String licensePlate = arrayList.get(i).getLicensePlate();
+        CreateEncryptFile(licensePlate);
         ArrayList<String> encrypted = new ArrayList<>();
-        militaryPlanes.get(i).setEncrypt(true);
-        encrypted.add(encrypt(militaryPlanes.get(i).getBrand()));
-        encrypted.add(encrypt(militaryPlanes.get(i).getLicensePlate()));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getCoordinate().getRow())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getCoordinate().getCol())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getCoordinate().getHeight())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getOrientation())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getEngine())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getSpeed())));
-        encrypted.add(encrypt(String.valueOf(militaryPlanes.get(i).getUndercarriage())));
+        arrayList.get(i).setEncrypt(true);
+        encrypted.add(encrypt(licensePlate));
+        encrypted.add(encrypt(arrayList.get(i).getBrand()));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getCoordinate().getRow())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getCoordinate().getCol())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getCoordinate().getHeight())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getOrientation())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getEngine())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getSpeed())));
+        encrypted.add(encrypt(String.valueOf(arrayList.get(i).getUndercarriage())));
         return encrypted;
     }
 
-    private void decryptPlane(ArrayList<MilitaryAirplane> result, int i, ArrayList<String> encrypted) {
-        String fileContent = "";
-        String url = "hashes/" + result.get(i).getLicensePlate() + ".hash";
+    private String ReadEncryptFile(String licensePlate) {
+        String fContent = "";
+        String url = "hashes/" + licensePlate + ".hash";
         try {
-            fileContent = String.valueOf(Files.readAllBytes(Paths.get(url)));
-            fileContent = fileContent.substring(0, fileContent.length() - 2);
+            fContent = new String(Files.readAllBytes(Paths.get(url)));
+            fContent = fContent.substring(0, fContent.length() - 2);
         } catch (Exception e) {
             System.out.println(fileNotFound);
         }
-        String newHash = encrypt(result.get(i).getLicensePlate());
-        if (fileContent.equals(newHash)) {
-            result.get(i).setEncrypt(false);
-            result.get(i).setBrand(decrypt(encrypted.get(0)));
-            result.get(i).setLicensePlate(decrypt(encrypted.get(1)));
-            result.get(i).getCoordinate().setPosition(
+        return fContent;
+    }
+
+    private void decryptPlane(ArrayList<Plane> array, int i, ArrayList<String> encrypted) {
+        String licensePlate = array.get(i).getLicensePlate();
+        String fileContent = ReadEncryptFile(licensePlate);
+        if (fileContent.equals(encrypt(licensePlate))) {
+            array.get(i).setEncrypt(false);
+            array.get(i).setLicensePlate(decrypt(encrypted.get(0)));
+            array.get(i).setBrand(decrypt(encrypted.get(1)));
+            array.get(i).getCoordinate().setPosition(
                     Integer.parseInt(decrypt(encrypted.get(2))),
                     Integer.parseInt(decrypt(encrypted.get(3))));
-            result.get(i).getCoordinate().setHeight(Integer.parseInt(decrypt(encrypted.get(4))));
-            result.get(i).setOrientation(Integer.parseInt(decrypt(encrypted.get(5))));
-            result.get(i).setEngine(Boolean.parseBoolean(decrypt(encrypted.get(6))));
-            result.get(i).setSpeed(Integer.parseInt(decrypt(encrypted.get(7))));
-            result.get(i).setUndercarriage(Boolean.parseBoolean(decrypt(encrypted.get(8))));
+            array.get(i).getCoordinate().setHeight(Integer.parseInt(decrypt(encrypted.get(4))));
+            array.get(i).setOrientation(Integer.parseInt(decrypt(encrypted.get(5))));
+            array.get(i).setEngine(Boolean.parseBoolean(decrypt(encrypted.get(6))));
+            array.get(i).setSpeed(Integer.parseInt(decrypt(encrypted.get(7))));
+            array.get(i).setUndercarriage(Boolean.parseBoolean(decrypt(encrypted.get(8))));
         }
     }
 

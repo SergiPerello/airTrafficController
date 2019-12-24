@@ -45,6 +45,8 @@ public class Consts {
     public static final String listPlanes = "Listing all available airplanes...";
     public static final String listCommercialPlanes = "Listing all available commercial airplanes...";
     public static final String listMilitaryPlanes = "Listing all available military airplanes...";
+    public static final String listMilitaryPlanesEncrypt = "Listing all available military airplanes to encrypt...";
+    public static final String listMilitaryPlanesDecrypt = "Listing all available military airplanes to decrypt...";
     public static final String chosePlane = "Choose an airplane: ";
     public static final String setPlaneSpeed = "Set new speed: ";
     public static final String setPlaneHeight = "Set new height: ";
@@ -78,4 +80,10 @@ public class Consts {
     public static String planeModification(String part, String part2, int value, int value2) {
         return "New values are " + part + ":" + value + " " + part2 + ":" + value2;
     }
+
+    /*DATA CONSULTED
+    https://beginnersbook.com/2013/05/method-overloading/
+    https://stackoverflow.com/questions/1998544/method-has-the-same-erasure-as-another-method-in-type
+    https://stackoverflow.com/questions/13134983/liststring-to-arrayliststring-conversion-issue/13135032
+    */
 }
