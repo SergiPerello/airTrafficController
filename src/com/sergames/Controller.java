@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import static com.sergames.ArrayListFilter.militaryEncrypt;
-import static com.sergames.ArrayListFilter.militaryNotEncrypt;
+import static com.sergames.ArrayListFilter.*;
 import static com.sergames.Consts.*;
 import static com.sergames.askUser.askUser;
 
@@ -43,8 +42,7 @@ public class Controller {
                     //TODO: check if landing track is occupied
                     break;
                 case 2: //Manage plane
-                    //int i = selectPlane(listPlanes);
-
+                    planeActions();
                     break;
                 case 3: //Show planes
                     showPlanes(listPlanes, planes);
@@ -58,6 +56,7 @@ public class Controller {
                     }
                     break;
                 case 5: //decrypt military planes
+                    //TODO: Bug when decrypting 2 military planes in order, the second gets the data of the first
                     ArrayList<Plane> militaryEncrypt = militaryEncrypt(planes);
                     if (militaryEncrypt.size() <= 0) System.out.println(noMilitaryPlanesToDecrypt);
                     else {
@@ -172,9 +171,10 @@ public class Controller {
         return new String(decode, StandardCharsets.UTF_8);
     }
 
-    /*private void planeActions() {
+    private void planeActions() {
         boolean exit = false;
-        int i = selectPlane(listPlanes);
+        ArrayList<Plane> notEncrypt = notEncrypt(planes);
+        int i = selectPlane(listPlanes, notEncrypt);
         while (!exit) {
             int option = Integer.parseInt(askUser(planeMenuOptions, planeMenu(planes.get(i).getEngine(), planes.get(i).getUndercarriage()), notValidOption));
             if ((option >= 2 && option <= 7) && !planes.get(i).getEngine()) {
@@ -237,5 +237,5 @@ public class Controller {
     private void updatePlaneState(int plane) {
         //TODO: check when a plane has to crash
         //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
-    }*/
+    }
 }
