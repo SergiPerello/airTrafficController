@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import static com.sergames.ArrayListFilter.militaryEncrypt;
-import static com.sergames.ArrayListFilter.militaryNotEncrypt;
+import static com.sergames.ArrayListFilter.*;
 import static com.sergames.Consts.*;
 import static com.sergames.askUser.askUser;
 
@@ -34,17 +33,15 @@ public class Controller {
     }
 
     public void towerActions(int o) {
-        if (o != 1 && planes.size() == 0) {
-            System.out.println(noPlanesCreated);
-        } else {
+        if (o != 1 && planes.size() == 0) System.out.println(noPlanesCreated);
+        else {
             switch (o) {
                 case 1: //Add plane
                     createPlane(Integer.parseInt(askUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
                     //TODO: check if landing track is occupied
                     break;
                 case 2: //Manage plane
-                    //int i = selectPlane(listPlanes);
-
+                    planeActions();
                     break;
                 case 3: //Show planes
                     showPlanes(listPlanes, planes);
@@ -85,6 +82,74 @@ public class Controller {
         String choosePlaneMenuOptions = "[1-" + array.size() + "]";
         showPlanes(text, array);
         return Integer.parseInt(askUser(choosePlaneMenuOptions, chosePlane, notValidOption)) - 1;
+    }
+
+    private void planeActions() {
+        boolean exit = false;
+        ArrayList<Plane> notEncrypt = notEncrypt(planes);
+        int i = selectPlane(listPlanes, notEncrypt);
+        while (!exit) {
+            int option = Integer.parseInt(askUser(planeMenuOptions, planeMenu(notEncrypt.get(i).getEngine(), notEncrypt.get(i).getUndercarriage()), notValidOption));
+            if ((option >= 2 && option <= 7) && !notEncrypt.get(i).getEngine()) {
+                System.out.println(turnOnEngine);
+            } else {
+                switch (option) {
+                    case 1:
+                        if (!notEncrypt.get(i).getEngine()) {
+                            notEncrypt.get(i).turnOnEngine();
+                            System.out.println(engineOn);
+                        } else {
+                            notEncrypt.get(i).turnOffEngine();
+                            System.out.println(engineOff);
+                        }
+                        break;
+                    case 2:
+                        int speedValue = Integer.parseInt(askUser(setPlaneSpeed));
+                        notEncrypt.get(i).setSpeed(speedValue);
+                        System.out.println(planeModification(speed, speedValue));
+                        break;
+                    case 3:
+                        int heightValue = Integer.parseInt(askUser(setPlaneHeight));
+                        notEncrypt.get(i).getCoordinate().setHeight(heightValue);
+                        System.out.println(planeModification(height, heightValue));
+                        break;
+                    case 4:
+                        if (notEncrypt.get(i).getCoordinate().getHeight() != 0) {
+                            if (!notEncrypt.get(i).getUndercarriage()) {
+                                notEncrypt.get(i).showUndercarriage();
+                                System.out.println(undercarriageOut);
+                            } else {
+                                notEncrypt.get(i).hideUndercarriage();
+                                System.out.println(undercarriageIn);
+                            }
+                        } else System.out.println(planeIsOnTheFloor);
+                        break;
+                    case 5:
+                        int orientationValue = Integer.parseInt(askUser(setPlaneOrientation));
+                        notEncrypt.get(i).setOrientation(orientationValue);
+                        System.out.println(planeModification(orientation, notEncrypt.get(i).getOrientation()));
+                        break;
+                    case 6:
+                        int rowValue = Integer.parseInt(askUser(maxGridPosition, setPlaneRow, notValidOption));
+                        int colValue = Integer.parseInt(askUser(maxGridPosition, setPlaneCol, notValidOption));
+                        notEncrypt.get(i).getCoordinate().setPosition(rowValue, colValue);
+                        System.out.println(planeModification(row, col, rowValue, colValue));
+                        break;
+                    case 7:
+                        //TODO: Shoot
+                        break;
+                    case 8:
+                        exit = true;
+                        break;
+                }
+            }
+            updatePlaneState(i);
+        }
+    }
+
+    private void updatePlaneState(int plane) {
+        //TODO: check when a plane has to crash
+        //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
     }
 
     private void showPlanes(String text, List<Plane> arrayList) {
@@ -171,71 +236,4 @@ public class Controller {
         byte[] decode = Base64.getDecoder().decode(s.getBytes());
         return new String(decode, StandardCharsets.UTF_8);
     }
-
-    /*private void planeActions() {
-        boolean exit = false;
-        int i = selectPlane(listPlanes);
-        while (!exit) {
-            int option = Integer.parseInt(askUser(planeMenuOptions, planeMenu(planes.get(i).getEngine(), planes.get(i).getUndercarriage()), notValidOption));
-            if ((option >= 2 && option <= 7) && !planes.get(i).getEngine()) {
-                System.out.println(turnOnEngine);
-            } else {
-                switch (option) {
-                    case 1:
-                        if (!planes.get(i).getEngine()) {
-                            planes.get(i).turnOnEngine();
-                            System.out.println(engineOn);
-                        } else {
-                            planes.get(i).turnOffEngine();
-                            System.out.println(engineOff);
-                        }
-                        break;
-                    case 2:
-                        int speedValue = Integer.parseInt(askUser(setPlaneSpeed));
-                        planes.get(i).setSpeed(speedValue);
-                        System.out.println(planeModification(speed, speedValue));
-                        break;
-                    case 3:
-                        int heightValue = Integer.parseInt(askUser(setPlaneHeight));
-                        planes.get(i).getCoordinate().setHeight(heightValue);
-                        System.out.println(planeModification(height, heightValue));
-                        break;
-                    case 4:
-                        if (planes.get(i).getCoordinate().getHeight() != 0) {
-                            if (!planes.get(i).getUndercarriage()) {
-                                planes.get(i).showUndercarriage();
-                                System.out.println(undercarriageOut);
-                            } else {
-                                planes.get(i).hideUndercarriage();
-                                System.out.println(undercarriageIn);
-                            }
-                        } else System.out.println(planeIsOnTheFloor);
-                        break;
-                    case 5:
-                        int orientationValue = Integer.parseInt(askUser(setPlaneOrientation));
-                        planes.get(i).setOrientation(orientationValue);
-                        System.out.println(planeModification(orientation, planes.get(i).getOrientation()));
-                        break;
-                    case 6:
-                        int rowValue = Integer.parseInt(askUser(maxGridPosition, setPlaneRow, notValidOption));
-                        int colValue = Integer.parseInt(askUser(maxGridPosition, setPlaneCol, notValidOption));
-                        planes.get(i).getCoordinate().setPosition(rowValue, colValue);
-                        System.out.println(planeModification(row, col, rowValue, colValue));
-                        break;
-                    case 7:
-                        //TODO: Shoot
-                        break;
-                    case 8:
-                        exit = true;
-                        break;
-                }
-            }
-            updatePlaneState(i);
-        }
-    }
-
-    private void updatePlaneState(int plane) {
-        //TODO: check when a plane has to crash
-        //TODO: Plane can be on 0 height with hidden undercarriage and not exploding
-    }*/
 }

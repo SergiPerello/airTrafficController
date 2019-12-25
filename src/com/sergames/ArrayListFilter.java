@@ -31,4 +31,11 @@ public class ArrayListFilter {
         }
         return notEncryptedMilitary;
     }
+    public static ArrayList<Plane> notEncrypt(ArrayList<Plane> array) {
+        ArrayList<Plane> notEncrypt = new ArrayList<>();
+        for (Plane p : array) {
+            if (!p.isEncrypt()) notEncrypt.add(p);
+        }
+        return notEncrypt;
+    }
 }
