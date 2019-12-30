@@ -1,8 +1,6 @@
 package com.sergames;
 
-import com.sergames.models.CommercialAirplane;
-import com.sergames.models.MilitaryAirplane;
-import com.sergames.models.Plane;
+import com.sergames.models.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -67,15 +65,32 @@ public class Controller {
     }
 
     private void createPlane(int planeType) {
-        String brand = askUser(setBrand);
-        String licensePlate = askUser(setLicensePlate);
-        if (planeType == 1) { //Commercial
-            planes.add(new CommercialAirplane(brand, licensePlate));
-            System.out.println(commercialPlaneCreated);
-        } else if (planeType == 2) { //Military
-            planes.add(new MilitaryAirplane(brand, licensePlate, false));
-            System.out.println(militaryPlaneCreated);
-        } else System.out.println(planeNotCreatedError);
+        if (checkLandingTrack()) {
+            if (planes.size() >= maxPlanes) System.out.println(noMorePlanes);
+            else {
+                String brand = askUser(setBrand);
+                String licensePlate = askUser(setLicensePlate);
+                if (planeType == 1) { //Commercial
+                    planes.add(new CommercialAirplane(brand, licensePlate));
+                    System.out.println(commercialPlaneCreated);
+                } else if (planeType == 2) { //Military
+                    planes.add(new MilitaryAirplane(brand, licensePlate, false));
+                    System.out.println(militaryPlaneCreated);
+                } else System.out.println(planeNotCreatedError);
+            }
+        } else System.out.println(landingTrackFull);
+    }
+
+    private boolean checkLandingTrack() {
+        for (Plane p : planes) {
+            Coordinates c = new Coordinates(p.getCoordinate().getRow(), p.getCoordinate().getCol(), p.getCoordinate().getHeight());
+            if (c.equals(landingTrack)) {
+                ArrayList<Plane> array = new ArrayList<>();
+                array.add(p);
+                if (array.size() < maxLandingTrackPlanes) return true;
+            }
+        }
+        return false;
     }
 
     private int selectPlane(String text, ArrayList<Plane> array) {
@@ -136,7 +151,10 @@ public class Controller {
                         System.out.println(planeModification(row, col, rowValue, colValue));
                         break;
                     case 7:
-                        //TODO: Shoot
+                        if (planes.get(i).getType() == Type.COMMERCIAL) System.out.println(commercialNoShoot);
+                        else {
+                            //TODO: Shoot
+                        }
                         break;
                     case 8:
                         exit = true;
@@ -155,15 +173,23 @@ public class Controller {
     private void showPlanes(String text, List<Plane> arrayList) {
         System.out.println(text);
         int i = 1;
-        TableList tl = new TableList(6, "ID", "Brand", "Matrícula", "X", "Y", "Z").sortBy(0).withUnicode(true);
+        TableList tl = new TableList(11, id, type, brand, plate, x, y, z, orientation, speed, engine, undercarriage).sortBy(0).withUnicode(true);
         for (Plane p : arrayList) {
             if (!p.isEncrypt()) {
-                tl.addRow(String.valueOf(i), p.getBrand(), p.getLicensePlate(),
+                String engine = p.getEngine() ? on : off;
+                String undercarriage = p.getEngine() ? on : off;
+                tl.addRow(String.valueOf(i),
+                        String.valueOf(p.getType()),
+                        p.getBrand(),
+                        p.getLicensePlate(),
                         String.valueOf(p.getCoordinate().getRow()),
                         String.valueOf(p.getCoordinate().getCol()),
-                        String.valueOf(p.getCoordinate().getHeight()));
+                        String.valueOf(p.getCoordinate().getHeight()),
+                        String.valueOf(p.getOrientation()),
+                        String.valueOf(p.getSpeed()),
+                        engine, undercarriage);
             } else {
-                tl.addRow(String.valueOf(i), empty, "ENCRYPTED", empty, empty, empty);
+                tl.addRow(String.valueOf(i), empty, encrypted, empty, empty, empty);
             }
             i++;
         }
@@ -171,7 +197,7 @@ public class Controller {
     }
 
     private void CreateEncryptFile(String licensePlate) {
-        String url = "hashes/" + licensePlate + ".hash";
+        String url = location + licensePlate + hashExtension;
         File file = new File(url);
         if (file.exists()) file.delete();
         try (FileWriter fw = new FileWriter(url, true); BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
@@ -199,8 +225,8 @@ public class Controller {
     }
 
     private String ReadEncryptFile(String licensePlate) {
-        String fContent = "";
-        String url = "hashes/" + licensePlate + ".hash";
+        String fContent = empty;
+        String url = location + licensePlate + hashExtension;
         try {
             fContent = new String(Files.readAllBytes(Paths.get(url)));
             fContent = fContent.substring(0, fContent.length() - 2);
