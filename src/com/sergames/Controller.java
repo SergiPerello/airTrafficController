@@ -30,13 +30,14 @@ public class Controller {
         while (true) towerActions(Integer.parseInt(askUser(towerMenuOptions, towerMenu, notValidOption)));
     }
 
-    public void towerActions(int o) {
+    private void towerActions(int o) {
         if (o != 1 && planes.size() == 0) System.out.println(noPlanesCreated);
         else {
             switch (o) {
                 case 1: //Add plane
-                    createPlane(Integer.parseInt(askUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
-                    //TODO: check if landing track is occupied
+                    if (checkLandingTrack()) {
+                        createPlane(Integer.parseInt(askUser(planeTypeMenuOptions, planeTypeMenu, notValidOption)));
+                    } else System.out.println(landingTrackFull);
                     break;
                 case 2: //Manage plane
                     planeActions();
@@ -65,32 +66,34 @@ public class Controller {
     }
 
     private void createPlane(int planeType) {
-        if (checkLandingTrack()) {
-            if (planes.size() >= maxPlanes) System.out.println(noMorePlanes);
-            else {
-                String brand = askUser(setBrand);
-                String licensePlate = askUser(setLicensePlate);
-                if (planeType == 1) { //Commercial
-                    planes.add(new CommercialAirplane(brand, licensePlate));
-                    System.out.println(commercialPlaneCreated);
-                } else if (planeType == 2) { //Military
-                    planes.add(new MilitaryAirplane(brand, licensePlate, false));
-                    System.out.println(militaryPlaneCreated);
-                } else System.out.println(planeNotCreatedError);
-            }
-        } else System.out.println(landingTrackFull);
+        if (planes.size() >= maxPlanes) System.out.println(noMorePlanes);
+        else {
+            String brand = askUser(setBrand);
+            String licensePlate = askUser(setLicensePlate);
+            if (planeType == 1) { //Commercial
+                planes.add(new CommercialAirplane(brand, licensePlate));
+                System.out.println(commercialPlaneCreated);
+            } else if (planeType == 2) { //Military
+                planes.add(new MilitaryAirplane(brand, licensePlate, false));
+                System.out.println(militaryPlaneCreated);
+            } else System.out.println(planeNotCreatedError);
+        }
     }
 
     private boolean checkLandingTrack() {
-        for (Plane p : planes) {
-            Coordinates c = new Coordinates(p.getCoordinate().getRow(), p.getCoordinate().getCol(), p.getCoordinate().getHeight());
-            if (c.equals(landingTrack)) {
-                ArrayList<Plane> array = new ArrayList<>();
-                array.add(p);
-                if (array.size() < maxLandingTrackPlanes) return true;
+        boolean result = false;
+        if (planes.size() != 0) {
+            ArrayList<Plane> array = new ArrayList<>();
+
+            for (Plane p : planes) {
+                Coordinates c = new Coordinates(p.getCoordinate().getRow(), p.getCoordinate().getCol(), p.getCoordinate().getHeight());
+                if (c.equals(landingTrack)) {
+                    array.add(p);
+                }
             }
-        }
-        return false;
+            if (array.size() < maxLandingTrackPlanes) result = true;
+        } else result = true;
+        return result;
     }
 
     private int selectPlane(String text, ArrayList<Plane> array) {
@@ -125,7 +128,7 @@ public class Controller {
                         break;
                     case 3:
                         int heightValue = Integer.parseInt(askUser(setPlaneHeight));
-                        notEncrypt.get(i).getCoordinate().setHeight(heightValue);
+                        notEncrypt.get(i).getCoordinate().setHeight(heightValue);//landingTrack is modified when plane height is changed
                         System.out.println(planeModification(height, heightValue));
                         break;
                     case 4:
@@ -188,12 +191,14 @@ public class Controller {
                         String.valueOf(p.getOrientation()),
                         String.valueOf(p.getSpeed()),
                         engine, undercarriage);
-            } else {
-                tl.addRow(String.valueOf(i), empty, encrypted, empty, empty, empty);
-            }
+            } else tl.addRow(String.valueOf(i), empty, encrypted, empty, empty, empty);
             i++;
         }
         tl.print();
+    }
+
+    private void deletePlane() {
+
     }
 
     private void CreateEncryptFile(String licensePlate) {

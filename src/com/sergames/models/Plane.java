@@ -2,6 +2,8 @@ package com.sergames.models;
 
 import com.sergames.Consts;
 
+import static com.sergames.Consts.landingTrack;
+
 public abstract class Plane {
     private String brand;
     private String licensePlate;
@@ -16,7 +18,7 @@ public abstract class Plane {
     public Plane(String brand, String licensePlate, Type type) {
         this.brand = brand;
         this.licensePlate = licensePlate;
-        this.coordinate = Consts.landingTrack;
+        this.coordinate = new Coordinates(landingTrack.getRow(), landingTrack.getCol(), landingTrack.getHeight());
         this.orientation = 0;
         this.engine = false;
         this.speed = 0;
